@@ -5,7 +5,21 @@ bool jalan = true;
 
 void main() {
   while (jalan == true) {
+    inputPassword();
+  }
+}
+
+void inputPassword() {
+  print('==============================');
+  print('Bank Serba Ada');
+  print('==============================');
+  stdout.write('Masukan PIN Anda: ');
+  String? password = stdin.readLineSync();
+
+  if (password == '112233') {
     tampilMenu();
+  } else {
+    print('Kata sandi salah, silakan coba lagi.');
   }
 }
 
