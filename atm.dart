@@ -56,20 +56,65 @@ void tampilMenu() {
 
 void cekSaldo() {
   print('==============================');
-  print('Saldo Anda Saat Ini: $sisaSaldo');
+  print('Saldo Anda Saat Ini:');
+  print('Rp $sisaSaldo');
   print('==============================');
+}
+
+void hitungPecahan(int nominal) {
+  List<int> pecahan = [100000, 50000, 20000, 10000, 5000, 2000, 1000];
+  int sisaNominal = nominal;
+
+  print('Rincian lembaran uang:');
+  for (int p in pecahan) {
+    int jumlahLembar = sisaNominal ~/ p;
+    if (jumlahLembar > 0) {
+      print('- Rp $p x $jumlahLembar lembar');
+      sisaNominal %= p;
+    }
+  }
+
+  if (sisaNominal > 0) {
+    print('- Sisa non-pecahan: Rp $sisaNominal');
+  }
 }
 
 void setorTunai() {
   print('==============================');
   print('Setor Tunai');
   print('==============================');
-  stdout.write('Masukan Nominal Setor: ');
+  stdout.write('Masukkan Nominal Setor: Rp ');
+  String? input = stdin.readLineSync();
+  int? nominal = int.tryParse(input ?? '');
+
+  if (nominal != null && nominal > 0) {
+    sisaSaldo += nominal;
+    print('\nSetor tunai berhasil!');
+    hitungPecahan(nominal);
+    print('Saldo Anda sekarang: Rp $sisaSaldo');
+  } else {
+    print('Nominal tidak valid.');
+  }
 }
 
 void tarikTunai() {
   print('==============================');
   print('Tarik Tunai');
   print('==============================');
-  stdout.write('Masukan Nominal Tarik: ');
+  stdout.write('Masukan Nominal Tarik: Rp ');
+  String? input = stdin.readLineSync();
+  int? nominal = int.tryParse(input ?? '');
+
+  if (nominal != null && nominal > 0) {
+    if (nominal <= sisaSaldo) {
+      sisaSaldo -= nominal;
+      print('\nTarik tunai berhasil!');
+      hitungPecahan(nominal);
+      print('Sisa saldo Anda: Rp $sisaSaldo');
+    } else {
+      print('Saldo Anda tidak mencukupi.');
+    }
+  } else {
+    print('Nominal tidak valid.');
+  }
 }
